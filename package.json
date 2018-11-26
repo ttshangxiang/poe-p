@@ -5,7 +5,8 @@
   "main": "none",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp dev"
+    "start": "gulp watch",
+    "dev": "gulp dev"
   },
   "repository": {
     "type": "git",
@@ -22,10 +23,12 @@
   },
   "homepage": "https://github.com/ttshangxiang/poe-p#readme",
   "dependencies": {
+    "@types/hammerjs": "^2.0.36",
     "browserify": "^16.2.3",
     "fancy-log": "^1.3.2",
     "gulp": "^3.9.1",
     "gulp-sourcemaps": "^2.6.4",
+    "hammerjs": "^2.0.8",
     "lodash": "^4.17.11",
     "lodash.assign": "^4.2.0",
     "tsify": "^4.0.1",
