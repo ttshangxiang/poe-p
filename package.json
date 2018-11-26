@@ -1,0 +1,37 @@
+{
+  "name": "poe-p",
+  "version": "1.0.0",
+  "description": "path of exile's keyboard p",
+  "main": "none",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ttshangxiang/poe-p.git"
+  },
+  "keywords": [
+    "poe",
+    "pathofexile"
+  ],
+  "author": "ttshangxiang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ttshangxiang/poe-p/issues"
+  },
+  "homepage": "https://github.com/ttshangxiang/poe-p#readme",
+  "dependencies": {
+    "browserify": "^16.2.3",
+    "fancy-log": "^1.3.2",
+    "gulp": "^3.9.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "lodash": "^4.17.11",
+    "lodash.assign": "^4.2.0",
+    "tsify": "^4.0.1",
+    "typescript": "^3.1.6",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0",
+    "watchify": "^3.11.0"
+  }
+}
