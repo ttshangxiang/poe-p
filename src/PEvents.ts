@@ -6,8 +6,10 @@ export default class PEvents {
   scale_max: number;
   scale_min: number;
   scale_factor: number;
-  scale_x0: number;
-  scale_y0: number; 
+  xo: number;
+  yo: number;
+  centerX: number;
+  centerY: number;
 
   // 初始
   constructor (options :any) {
@@ -15,32 +17,47 @@ export default class PEvents {
     this.scale_max = 2; // 缩放最大倍数
     this.scale_min = 0.5; // 缩放最小倍数
     this.scale_factor = 1000; // 滚动值与缩放的换算因子
-    this.scale_x0 = 0; // 缩放后的canvas相对于main的x偏移
-    this.scale_y0 = 0; // 缩放后的canvas相对于main的y偏移
+    this.xo = 0; // 原点
+    this.yo = 0; // 原点
+    this.centerX = 0;
+    this.centerY = 0;
     this.main = options.main;
     this.canvas = options.canvas;
 
     this.wheel = this.wheel.bind(this);
-    this.main.addEventListener('wheel', this.wheel, true);
+    this.main.addEventListener('wheel', this.wheel);
+    this.pan();
   }
   // 放大缩小
   setScale () {
     this.canvas.style.transform = `scale(${this.scale})`;
   }
   // 计算原点
-  setOrigin (x: number, y: number, prev_scale: number) {
-    // const xp = (x - this.scale_x0) / this.main.clientWidth * this.scale;
-    // const yp = (y - this.scale_y0) / this.main.clientHeight * this.scale;
-    // this.canvas.style.transformOrigin = `${xp * 100}% ${yp * 100}%`;
-
-    // console.log(this.canvas.style.transformOrigin, prev_scale, this.scale)
-    // this.scale_x0 += (prev_scale - this.scale) * this.canvas.width * xp;
-    // this.scale_y0 += (prev_scale - this.scale) * this.canvas.height * yp;
-    // console.log(this.scale_x0, this.scale_y0)
-    console.log(x, y)
+  setOrigin (new_scale: number) {
+    const { scale, canvas, centerX, centerY } = this;
+    const offsetX = (new_scale - scale) * canvas.width * centerX;
+    const offsetY = (new_scale - scale) * canvas.height * centerY;
+    this.xo -= offsetX;
+    this.yo -= offsetY;
+    console.log('原点', this.xo, this.yo)
+  }
+  // 计算原点2
+  getOrigin (x:number, y:number) {
+    const centerX = (x - this.xo) / this.canvas.width * this.scale;
+    const centerY = (y - this.yo) / this.canvas.height * this.scale;
+    console.log('👈', centerX, centerY);
+    this.centerX = centerX;
+    this.centerY = centerY;
+    this.canvas.style.transformOrigin = `${centerX * 100}% ${centerY * 100}%`
   }
   // 滚轮
   wheel (e: WheelEvent) {
+    console.log(e)
+    console.log(e.offsetX, e.offsetY)
+    console.log(e.x, e.y)
+    console.log(e.pageX, e.pageY)
+    console.log(e.clientX, e.clientY)
+    return;
     // 坐标x,y
     const { offsetX: x, offsetY: y, wheelDeltaY: delta} = e;
     // 缩放比例
@@ -53,14 +70,45 @@ export default class PEvents {
       // 放大
       scale = Math.max(scale - step, this.scale_min);
     }
+    // 事件在canvas时s
+    if (e.target === this.canvas) {
+      
+    }
+    // 事件在main时
+    if (e.target === this.main) {
+      console.log('m', x, y)
+    }
     if (scale != this.scale) {
-      // 缓存变换之前的大小
-      const prev_scale = this.scale;
+      this.getOrigin(x, y);
+      this.setOrigin(scale);
       this.scale = scale;
-      this.setOrigin(x, y, prev_scale);
       this.setScale();
     }
-    console.log(this.canvas)
+  }
+
+  // 拖动
+  pan () {
+    let mx: number, my: number, lx: number, ly: number;
+    const mousedown = (e: MouseEvent) => {
+      this.main.addEventListener('mousemove', mousemove);
+      mx = e.pageX;
+      my = e.pageY;
+      lx = this.xo;
+      ly = this.yo;
+    }
+    const mousemove = (e: MouseEvent) => {
+      lx = this.xo + e.pageX - mx;
+      ly = this.yo + e.pageY - my;
+      this.canvas.style.transform = `translate(${lx}px, ${ly}px)`;
+    }
+    const mouseup = (e: MouseEvent) => {
+      this.xo = lx;
+      this.yo = ly;
+      this.main.removeEventListener('mousemove', mousemove);
+    }
+    this.main.addEventListener('mousedown', mousedown)
+    this.main.addEventListener('mouseup', mouseup)
+    this.main.addEventListener('mouseleave', mouseup)
   }
 }
 
