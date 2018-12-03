@@ -1,15 +1,18 @@
-import PEvents from './PEvents'
 
-const main = document.getElementById('main');
-const canvas = document.createElement('canvas');
-canvas.width = 800;
-canvas.height = 600;
-main.appendChild(canvas);
-new PEvents({main, canvas});
+import * as d3 from 'd3';
 
-const ctx = canvas.getContext('2d');
-const img = document.createElement('img');
-img.src = './assets/images/passive-skill-sprite/groups-3.png';
-img.onload = () => {
-  ctx.drawImage(img, 0, 0, 800, 800);
-}
+const $main = document.getElementById('main');
+const w = $main.clientWidth, h = $main.clientHeight; 
+const $svg = d3.select($main)
+  .append('svg')
+  .attr('width', w)
+  .attr('height', h);
+
+const $t = $svg.append('g');
+const zoom = d3.zoom().on('zoom', function () {
+  const {k, x, y} = d3.event.transform;
+  console.log(k, x, y);
+  $t.attr('transform', `translate(${x}, ${y}) scale(${k})`);
+});
+$svg.call(zoom);
+
