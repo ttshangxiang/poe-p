@@ -44,3 +44,17 @@ function bundle() {
     .pipe(gulp.dest('./dist'))
     .on('end', () => log('bundle end.'));
 }
+
+gulp.task('admin', ['html'], function () {
+  return browserify('src/admin.ts')
+    .plugin('tsify', {
+      noImplicitAny: true
+    })
+    .bundle()
+    // 如果有错误发生，记录这些错误
+    .on('error', err => log('browserify', err))
+    .pipe(source('admin.js'))
+    .pipe(buffer()) // 缓存
+    .pipe(gulp.dest('./dist'))
+    .on('end', () => log('bundle end.'));
+})
