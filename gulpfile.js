@@ -31,6 +31,7 @@ function bundle() {
     .plugin('tsify', {
       noImplicitAny: true
     })
+    .external('d3')
     .bundle()
     // 如果有错误发生，记录这些错误
     .on('error', err => log('browserify', err))
