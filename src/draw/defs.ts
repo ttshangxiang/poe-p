@@ -95,4 +95,14 @@ export default function() {
     .attr('height', 144)
     .attr('x', -144)
     .attr('y', -144);
+
+  // 模糊
+  $defs
+    .append('filter')
+    .attr('id', 'f1')
+    .attr('x', 0)
+    .attr('y', 0)
+    .append('feGaussianBlur')
+    .attr('in', 'SourceGraphic')
+    .attr('stdDeviation', 2);
 }

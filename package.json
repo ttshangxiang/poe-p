@@ -8,7 +8,7 @@
     "start": "gulp watch",
     "dev": "gulp dev",
     "admin": "gulp admin",
-    "serve": "http-server ./dist -P http://ttshangxiang.com -c-1"
+    "serve": "http-server ./dist -p 10010 -P http://ttshangxiang.com -c-1"
   },
   "repository": {
     "type": "git",

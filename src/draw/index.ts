@@ -40,11 +40,6 @@ function addSkillIcon(selection: Icon['selection'], x: number, y: number) {
     y: -1 * y * size
   });
   selection.append('use').attr('xlink:href', '#skill-border');
-  selection
-    .append('circle')
-    .attr('cx', 0)
-    .attr('cy', 0)
-    .attr('r', Math.floor(size / 2));
 }
 
 // 添加技能-未使用
@@ -85,6 +80,57 @@ function addPan(selection: Icon['selection'], type: string) {
 function addPoint(x: number, y: number) {
   return $layer.append('g').attr('transform', `translate(${x}, ${y})`);
 }
+
+// 添加基本线
+function addLine(path: string, colors: string[]) {
+  const g = $layer.append('g');
+  let i = colors.length;
+  while (i) {
+    g.append('path')
+    .attr('d', path)
+    .attr('stroke', colors[i - 1])
+    .attr('stroke-width', i * 2)
+    .attr('fill', 'none');
+    i--;
+  }
+  return g;
+}
+
+// 添加普通线
+function addNormalLine (path: string) {
+  const colors = [
+    'rgba(20,17,6,1)',
+    'rgba(99,88,52,1)',
+    'rgba(57,49,20,.30)'
+  ];
+  addLine(path, colors);
+}
+
+// 添加可能线
+function addCanLine (path: string) {
+  const colors = [
+    'rgba(209,172,136,1)',
+    'rgba(150,114,83,1)',
+    'rgba(68,45,26,.37)'
+  ];
+  addLine(path, colors);
+}
+
+// 添加高亮线
+function addActiveLine (path: string) {
+  const colors = [
+    'rgba(226,219,189,1)',
+    'rgba(182,164,119,1)',
+    'rgba(178,127,54,.87)',
+    'rgba(125,94,32,.55)',
+    'rgba(69,53,20,.31)',
+  ];
+  addLine(path, colors);
+}
+
+addNormalLine('M0,-100l200,0');
+addCanLine('M0,-150l200,0');
+addActiveLine('M0,-200l200,0');
 
 // 测试
 const p = addPoint(-20, -280);

@@ -17,14 +17,24 @@ gulp.task('assets', function () {
     .pipe(gulp.dest('dist/assets'));
 })
 
-gulp.task('dev', ['html', 'assets', 'verdor'], bundle);
+gulp.task('verdor', function () {
+  return browserify()
+    .require('d3/dist/d3.min.js', {expose: 'd3'})
+    .bundle()
+    .on('error', err => log('browserify', err))
+    .pipe(source('verdor.js'))
+    .pipe(gulp.dest('./dist'))
+    .on('end', () => log('bundle verdor end.'));
+});
 
-gulp.task('watch', ['dev'], function () {
+gulp.task('dev', gulp.parallel(['html', 'assets', 'verdor'], bundle));
+
+gulp.task('watch',  gulp.parallel(['dev'], function () {
   var watcher = gulp.watch('src/**/*.ts', bundle);
   watcher.on('change', function(event) {
     log('File ' + event.path + ' was ' + event.type + ', running tasks...');
   });
-});
+}));
 
 function bundle() {
   return browserify('src/app.ts')
@@ -46,17 +56,7 @@ function bundle() {
     .on('end', () => log('bundle end.'));
 }
 
-gulp.task('verdor', function () {
-  return browserify()
-    .require('d3/dist/d3.min.js', {expose: 'd3'})
-    .bundle()
-    .on('error', err => log('browserify', err))
-    .pipe(source('verdor.js'))
-    .pipe(gulp.dest('./dist'))
-    .on('end', () => log('bundle verdor end.'));
-});
-
-gulp.task('admin', ['html'], function () {
+gulp.task('admin',  gulp.parallel(['html'], function () {
   return browserify('src/admin.ts')
     .plugin('tsify', {
       noImplicitAny: true
@@ -68,4 +68,4 @@ gulp.task('admin', ['html'], function () {
     .pipe(buffer()) // 缓存
     .pipe(gulp.dest('./dist'))
     .on('end', () => log('bundle admin end.'));
-})
+}))
