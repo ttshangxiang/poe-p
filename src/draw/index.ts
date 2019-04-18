@@ -128,23 +128,40 @@ function addActiveLine (path: string) {
   addLine(path, colors);
 }
 
-addNormalLine('M0,-100l200,0');
-addCanLine('M0,-150l200,0');
-addActiveLine('M0,-200l200,0');
+// addNormalLine('M0,-100l200,0');
+// addCanLine('M0,-150l200,0');
+// addActiveLine('M0,-200l200,0');
 
 // 测试
-const p = addPoint(-20, -280);
-addSkillIcon(p, 13, 0);
+// const p = addPoint(-20, -280);
+// addSkillIcon(p, 13, 0);
 
-const pd = addPoint(20, 130);
-addSkillIconD(pd, 0, 0);
+// const pd = addPoint(20, 130);
+// addSkillIconD(pd, 0, 0);
 
-const pb = addPoint(0, 0);
-addBranchIcon(pb, 0, 6);
+// const pb = addPoint(0, 0);
+// addBranchIcon(pb, 0, 6);
 
-const pp = addPoint(100, 200);
-addPan(pp, 'pan1');
+// const pp = addPoint(100, 200);
+// addPan(pp, 'pan1');
 
-p.on('click', function(e) {
-  console.log(e);
-});
+// p.on('click', function(e) {
+//   console.log(e);
+// });
+
+// 添加底盘，用于纠正位置
+const p = addPoint(0, 0);
+p.append('image')
+  .attr('xlink:href', '/assets/images/jietu.jpg')
+  .attr('width', 6516)
+  .attr('height', 6138)
+  .attr('style', 'opacity: 0.3')
+  .attr('x', -3124)
+  .attr('y', -3087);
+
+// 添加点
+const p2 = addPoint(-150, 0);
+addSkillIcon(p2, 13, 0);
+
+console.log('dsds')
+

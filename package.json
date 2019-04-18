@@ -5,10 +5,12 @@
   "main": "none",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp watch",
+    "start": "npm run watch",
     "dev": "gulp dev",
+    "build": "gulp build",
     "admin": "gulp admin",
-    "serve": "http-server ./dist -p 10010 -P http://ttshangxiang.com -c-1"
+    "watch": "gulp watch",
+    "serve": "http-server ./dist -p 7777 -c-1"
   },
   "repository": {
     "type": "git",
@@ -26,21 +28,15 @@
   "homepage": "https://github.com/ttshangxiang/poe-p#readme",
   "dependencies": {
     "@types/d3": "^5.0.1",
-    "@types/hammerjs": "^2.0.36",
     "axios": "^0.18.0",
-    "browserify": "^16.2.3",
     "d3": "^5.7.0",
+    "dom7": "^2.1.3",
     "fancy-log": "^1.3.2",
     "gulp": "^4.0.0",
-    "gulp-sourcemaps": "^2.6.4",
-    "hammerjs": "^2.0.8",
     "lodash": "^4.17.11",
-    "lodash.assign": "^4.2.0",
-    "tsify": "^4.0.1",
-    "typescript": "^3.1.6",
-    "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0",
-    "watchify": "^3.11.0"
+    "rollup": "^1.10.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {}
 }
